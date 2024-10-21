@@ -1,101 +1,66 @@
-import Image from "next/image";
+import { PostType } from "@/types";
+import Link from "next/link";
 
-export default function Home() {
+const fetchAllBlog = async () => {
+  //apiファイルにアクセス
+  const res = await fetch(`http://localhost:3000/api/blog`, {
+    cache: "no-store"
+  })
+  const data = await res.json()
+  //api/blog/route.tsの26行目のpostsを指す
+  return data.posts
+}
+
+export default async function Home() {
+  const posts = await fetchAllBlog();
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main className="w-full h-full">
+      <div className="md:w-2/4 sm:w-3/4 m-auto p-4 my-5 rounded-lg bg-blue-900 drop-shadow-xl">
+        <h1 className="text-slate-200 text-center text-2xl font-extrabold">
+          Full Stack Blog 📝
+        </h1>
+      </div>
+      
+      <div className="flex my-5">
+        <Link
+          href={"/blog/add"}
+          className=" md:w-1/6 sm:w-2/4 text-center rounded-md p-2 m-auto bg-slate-300 font-semibold"
+        >
+          ブログ新規作成
+        </Link>
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      <div className="w-full flex flex-col justify-center items-center">
+        {posts.map((post: PostType) => (
+          <div key={post.id} className="w-3/4 p-4 rounded-md mx-3 my-2 bg-slate-300 flex flex-col justify-center">
+            <div className="flex items-center my-3">
+              <div className="mr-auto">
+                <h2 className="mr-auto font-semibold">{post.title}</h2>
+              </div>
+              <Link
+                href={`/blog/edit/${post.id}`}
+                className="px-4 py-1 text-center text-xl bg-slate-900 rounded-md font-semibold text-slate-200"
+              >
+                編集
+              </Link>
+            </div>
+
+            <div className="mr-auto my-1">
+              {/* 
+                  post.dateは"2023-10-21T12:34:56Z" のような日付文字列 
+                  Date()の引数にpost.dateを渡すことで、その日付を基に新しいDateオブジェクトを作成(Dateオブジェクトに直すことで、いろいろな操作が可能に)
+                  toDateString()は、日付部分だけを人間に読みやすい形式で返す
+              */}
+              <blockquote className="font-bold text-slate-700">{new Date(post.date).toDateString()}</blockquote>
+            </div>
+
+            <div className="mr-auto my-1">
+              <h2>{post.description}</h2>
+            </div>
+          </div>
+        ))}
+      </div>
+    </main>
   );
 }
