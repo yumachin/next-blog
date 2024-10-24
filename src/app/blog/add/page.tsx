@@ -10,10 +10,11 @@ const postBlog = async (title: string | undefined, description: string | undefin
     headers: {
       "Content-Type": "application/json"
     },
+    //title, descriptionという変数の値を持つオブジェクトを送信
     body: JSON.stringify({ title, description })
   })
 
-  return res.json
+  return res.json()
 }
 
 const PostBlog = () => {

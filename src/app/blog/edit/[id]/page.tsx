@@ -13,7 +13,7 @@ const editBlog = async (title: string | undefined, description: string | undefin
     },
     body: JSON.stringify({ title, description, id })
   })
-  return res.json
+  return res.json()
 }
 
 //編集ボタンを押した後に、初期値が入っているようにする関数
@@ -34,17 +34,17 @@ const deleteBlog = async ( id: number ) => {
     method: "DELETE"
   })
 
-  return res.json
+  return res.json()
 }
 
-//どのBlogを編集するかを特定するIdを取得するために、paramsという変数を定義
-//{ params }はオブジェクトの分割代入
-//:{ params: { id: number } }は型の定義で、paramsがオブジェクトかつ、paramsオブジェクトにはidという数値型のプロパティの含有を意
+//どのBlogを編集するかを特定するIdを取得するために、paramsという変数を定義(URL情報を含んでいる)
+//まず{ params: { id: number } }の部分の params は変数のため、どんな名前でも可
+//そして、この部分はオブジェクトの型定義をしている。そのオブジェクトのプロパティ名である params を ({ params }: で分割代入で取得している
 const EditPost = ({ params }: { params: { id: number } }) => {
   const router = useRouter();
   const titleRef = useRef<HTMLInputElement | null>(null);
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
-
+  
   //編集ボタンを押した時の挙動
   const handleEdit = async (e: FormEvent) => {
     e.preventDefault();

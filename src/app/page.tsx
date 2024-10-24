@@ -2,18 +2,18 @@ import { PostType } from "@/types";
 import Link from "next/link";
 
 const fetchAllBlog = async () => {
-  //apiファイルにアクセス
+  // api/blogファイルにアクセス
+  // methodを指定していないため、自動的にGETメソッドが適応される
   const res = await fetch(`http://localhost:3000/api/blog`, {
     cache: "no-store"
   })
   const data = await res.json()
-  //api/blog/route.tsの26行目のpostsを指す
+  // api/blog/route.tsの31行目のpostsを指す
   return data.posts
 }
 
 export default async function Home() {
   const posts = await fetchAllBlog();
-
   return (
     <main className="w-full h-full">
       <div className="md:w-2/4 sm:w-3/4 m-auto p-4 my-5 rounded-lg bg-blue-900 drop-shadow-xl">
@@ -32,6 +32,7 @@ export default async function Home() {
       </div>
 
       <div className="w-full flex flex-col justify-center items-center">
+        {/* 全ポストをマッピング */}
         {posts.map((post: PostType) => (
           <div key={post.id} className="w-3/4 p-4 rounded-md mx-3 my-2 bg-slate-300 flex flex-col justify-center">
             <div className="flex items-center my-3">
@@ -49,7 +50,7 @@ export default async function Home() {
             <div className="mr-auto my-1">
               {/* 
                   post.dateは"2023-10-21T12:34:56Z" のような日付文字列 
-                  Date()の引数にpost.dateを渡すことで、その日付を基に新しいDateオブジェクトを作成(Dateオブジェクトに直すことで、いろいろな操作が可能に)
+                  Date()の引数にpost.dateを渡すことで、その日付を基に新しいDateオブジェクトを作成(Dateオブジェクトに直すことで、いろいろな操作(toDateString()などなど)が可能に)
                   toDateString()は、日付部分だけを人間に読みやすい形式で返す
               */}
               <blockquote className="font-bold text-slate-700">{new Date(post.date).toDateString()}</blockquote>
