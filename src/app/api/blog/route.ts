@@ -17,6 +17,7 @@ export async function main() {
 //blogの全記事取得API
 //RequestとNextResponseは型定義であるが、NextResponseは機能を持つオブジェクトでもある。
 //reqはクライアント側からサーバー側に送信されたHTTPリクエストの情報を含むオブジェクトで、resはサーバー側がクライアント側に返すHTTPレスポンスの情報を含むオブジェクト
+//reqはルートハンドラ(GETやPOST関数)でデフォルトで渡されるもの、resはpostsをクライアントに返すために引数として必要
 export const GET = async (req: Request, res: NextResponse) => {
   try {
   //まずはDB接続
