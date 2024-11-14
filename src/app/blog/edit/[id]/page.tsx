@@ -11,6 +11,7 @@ const editBlog = async (title: string | undefined, description: string | undefin
     headers: {
       "Content-Type": "application/json"
     },
+    //title, description, idという変数の値を持つオブジェクトを送信
     body: JSON.stringify({ title, description, id })
   })
   return res.json()
@@ -19,11 +20,11 @@ const editBlog = async (title: string | undefined, description: string | undefin
 //編集ボタンを押した後に、初期値が入っているようにする関数
 //詳細ページのデータを取得する
 const getBlogById = async ( id: number ) => {
-  const res = await fetch(`http://localhost:3000/api/blog/${id}`);
   //api/blog/id/route.tsのGETのAPIだけが実行される
+  const res = await fetch(`http://localhost:3000/api/blog/${id}`);
   const data = await res.json();
   console.log(data)
-  //api/blog/id/route.tsの17、37、55行目のpostを指す
+  //api/blog/id/route.tsの20、41、58行目のpostを指す
   return data.post
 }
 
@@ -33,13 +34,12 @@ const deleteBlog = async ( id: number ) => {
     // method: "DELETE"のため、api/blog/id/route.tsのDELETEのAPIだけが実行される
     method: "DELETE"
   })
-
   return res.json()
 }
 
 //どのBlogを編集するかを特定するIdを取得するために、paramsという変数を定義(URL情報を含んでいる)
 //まず{ params: { id: number } }の部分の params は変数のため、どんな名前でも可
-//そして、この部分はオブジェクトの型定義をしている。そのオブジェクトのプロパティ名である params を ({ params }: で分割代入で取得している
+//そして、この部分はオブジェクトの型定義をしている。このオブジェクトのプロパティ名である params を ({ params }: で分割代入で取得している
 const EditPost = ({ params }: { params: { id: number } }) => {
   const router = useRouter();
   const titleRef = useRef<HTMLInputElement | null>(null);
@@ -65,8 +65,8 @@ const EditPost = ({ params }: { params: { id: number } }) => {
   useEffect(() => {
     getBlogById(params.id)
       //getBlogByIdでデータが正常に取得できたとき、then以下が実行
+      // dataは25行目のdataのこと
       .then((data) => {
-        //titleとdescriptionの参照先があるとき
         //(titleRef.currentとdescriptionRef.currentがnullまたはundefinedでないことを確認)
         if (titleRef.current && descriptionRef.current) {
           titleRef.current.value = data.title;

@@ -8,7 +8,7 @@ const fetchAllBlog = async () => {
     cache: "no-store"
   })
   const data = await res.json()
-  // api/blog/route.tsの31行目のpostsを指す
+  // api/blog/route.tsの27行目のpostsを指す
   return data.posts
 }
 
