@@ -8,7 +8,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 //blog詳細記事取得API
-export const GET = async (req: Request, res: NextResponse) => {
+export const GET = async (req: Request, _: NextResponse) => {
   try {
     //req.url = "http://localhost:3000/api/blog/1"などなど
     //これをparseIntで数値型に変換
@@ -26,7 +26,7 @@ export const GET = async (req: Request, res: NextResponse) => {
 }
 
 //blog記事編集API
-export const PUT = async (req: Request, res: NextResponse) => {
+export const PUT = async (req: Request, _: NextResponse) => {
   try {
     const { title, description } = await req.json()
     const id: number = parseInt(req.url.split("blog/")[1]); 
@@ -47,7 +47,7 @@ export const PUT = async (req: Request, res: NextResponse) => {
 }
 
 //blog記事削除API
-export const DELETE = async (req: Request, res: NextResponse) => {
+export const DELETE = async (req: Request, _: NextResponse) => {
   try {
     const id: number = parseInt(req.url.split("blog/")[1]); 
     await main();

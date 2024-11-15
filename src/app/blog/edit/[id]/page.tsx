@@ -75,9 +75,9 @@ const EditPost = ({ params }: { params: { id: number } }) => {
       })
       //getBlogByIdの実行中にエラーが発生したとき、catch以下が実行
       .catch((err) => {
-      console.log("Errorが発生しました。")
+        console.error("エラーが発生しました:", err);
       });
-  }, [])
+  }, [ params.id ])
 
   return (
     <>
