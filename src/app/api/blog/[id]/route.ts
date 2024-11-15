@@ -17,9 +17,10 @@ import prisma from "@/app/lib/prismaClient";
 //blog詳細記事取得API
 export const GET = async (req: Request) => {
   try {
+    const url = new URL(req.url);
     //req.url = "http://localhost:3000/api/blog/1"などなど
     //これをparseIntで数値型に変換
-    const id: number = parseInt(req.url.split("blog/")[1]); 
+    const id: number = parseInt(url.pathname.split("blog/")[1]);
     await prisma.$connect();
 
     //findFirst()は、指定した条件に一致する最初のレコード(行)をDBから取得するメソッド
@@ -36,7 +37,8 @@ export const GET = async (req: Request) => {
 export const PUT = async (req: Request) => {
   try {
     const { title, description } = await req.json()
-    const id: number = parseInt(req.url.split("blog/")[1]); 
+    const url = new URL(req.url);
+    const id: number = parseInt(url.pathname.split("blog/")[1]);
     await prisma.$connect();
 
     //update()は、指定された条件に基づいてDB内の投稿を更新
@@ -56,7 +58,8 @@ export const PUT = async (req: Request) => {
 //blog記事削除API
 export const DELETE = async (req: Request) => {
   try {
-    const id: number = parseInt(req.url.split("blog/")[1]); 
+    const url = new URL(req.url);
+    const id: number = parseInt(url.pathname.split("blog/")[1]);
     await prisma.$connect();
 
     const post = await prisma.post.delete({
