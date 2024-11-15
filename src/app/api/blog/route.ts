@@ -2,8 +2,13 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
+declare global {
+  var prisma: PrismaClient | undefined;
+}
+
 //PrismaClient: DBとやりとりするための特別な道具
-const prisma  = new PrismaClient();
+const prisma = globalThis.prisma || new PrismaClient();
+if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
 
 //blogの全記事取得API
 //RequestとNextResponseは型定義であるが、NextResponseは機能を持つオブジェクトでもある。

@@ -6,6 +6,17 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+// DBに接続するための関数を定義
+// route.tsにはHTTPリクエストのみを書く(デプロイ時エラー)
+// export async function main() {
+//   try {
+//     await prisma.$connect();
+//   } catch (err) {
+//     console.error("DB接続エラー:", err);
+//     return Error("DB接続に失敗しました。");
+//   }
+// }
+
 //blog詳細記事取得API
 export const GET = async (req: Request) => {
   try {
