@@ -2,7 +2,6 @@
 //[id]とすることで、エンドポイントが可変に
 
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import { prisma } from "../route";
 
 // DBに接続するための関数を定義
