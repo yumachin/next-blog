@@ -2,9 +2,8 @@
 //[id]とすることで、エンドポイントが可変に
 
 import { NextResponse } from "next/server";
-import { prisma } from "../route";
+import prisma from "@/app/lib/prismaClient";
 
-// DBに接続するための関数を定義
 // route.tsにはHTTPリクエストのみを書く(デプロイ時エラー)
 // export async function main() {
 //   try {

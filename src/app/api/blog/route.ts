@@ -1,14 +1,6 @@
 //"@prisma/client/extension"ではなく、"@prisma/client"に変更する。
-import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
-
-declare global {
-  var prisma: PrismaClient | undefined;
-}
-
-//PrismaClient: DBとやりとりするための特別な道具
-export const prisma = globalThis.prisma || new PrismaClient();
-if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
+import prisma from "@/app/lib/prismaClient";
 
 //blogの全記事取得API
 //RequestとNextResponseは型定義であるが、NextResponseは機能を持つオブジェクトでもある。
