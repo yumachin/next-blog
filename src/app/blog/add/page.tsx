@@ -40,7 +40,7 @@ const PostBlog = () => {
     <>
       <div className="w-full m-auto flex my-4">
         <div className="flex flex-col justify-center items-center m-auto">
-          <p className="text-2xl text-slate-200 font-bold p-3">ブログ新規作成 🚀</p>
+          <p className="text-2xl text-white bg-slate-600 font-bold p-3 rounded-md">ブログ新規作成</p>
           <form onSubmit={handleSubmit}>
             <input
               // inputへの入力内容を取得するために、refを指定

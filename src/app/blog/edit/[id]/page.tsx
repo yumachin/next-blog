@@ -83,7 +83,7 @@ const EditPost = ({ params }: { params: { id: number } }) => {
     <>
       <div className="w-full m-auto flex my-4">
         <div className="flex flex-col justify-center items-center m-auto">
-          <p className="text-2xl text-slate-200 font-bold p-3">ブログの編集 🚀</p>
+          <p className="text-2xl text-white bg-slate-600 font-bold p-3 rounded-md">ブログの編集</p>
           <form>
             <input
               ref={titleRef}
