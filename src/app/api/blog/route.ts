@@ -5,16 +5,6 @@ import { NextResponse } from "next/server";
 //PrismaClient: DBとやりとりするための特別な道具
 const prisma  = new PrismaClient();
 
-//DBに接続するための関数を定義
-export async function main() {
-  try {
-    await prisma.$connect();
-  } catch (err) {
-    console.error("DB接続エラー:", err);
-    return Error("DB接続に失敗しました。");
-  }
-}
-
 //blogの全記事取得API
 //RequestとNextResponseは型定義であるが、NextResponseは機能を持つオブジェクトでもある。
 //reqはクライアント側からサーバー側に送信されたHTTPリクエストの情報を含むオブジェクトで、resはサーバー側がクライアント側に返すHTTPレスポンスの情報を含むオブジェクト
@@ -22,7 +12,7 @@ export async function main() {
 export const GET = async () => {
   try {
   //まずはDB接続
-    await main();
+    await prisma.$connect();
   //その後、DB内のデータを取得
     //postとはschema.prismaファイルで定義したmodelの名前で、findMany()はDBから複数のレコード(行)を取得し、それを配列で返すメソッド
     const posts = await prisma.post.findMany();
@@ -44,7 +34,7 @@ export const POST = async (req: Request) => {
   try {
     //req.json()が返すオブジェクトの中から、titleとdescriptionという2つのプロパティを取り出し、それぞれ代入(分割代入)
     const {title, description} = await req.json()
-    await main();
+    await prisma.$connect();
     //create()は、DBに新しいレコード（行）を追加するためのメソッド、引数には作成するデータ内容を挿入
     //また、dataという名前である必要あり
     const post = await prisma.post.create({ data: { title, description } });

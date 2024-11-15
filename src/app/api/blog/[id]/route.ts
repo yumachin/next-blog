@@ -2,7 +2,6 @@
 //[id]とすることで、エンドポイントが可変に
 
 import { NextResponse } from "next/server";
-import { main } from "../route";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -13,7 +12,7 @@ export const GET = async (req: Request) => {
     //req.url = "http://localhost:3000/api/blog/1"などなど
     //これをparseIntで数値型に変換
     const id: number = parseInt(req.url.split("blog/")[1]); 
-    await main();
+    await prisma.$connect();
 
     //findFirst()は、指定した条件に一致する最初のレコード(行)をDBから取得するメソッド
     const post = await prisma.post.findFirst({ where: { id } }); 
@@ -30,7 +29,7 @@ export const PUT = async (req: Request) => {
   try {
     const { title, description } = await req.json()
     const id: number = parseInt(req.url.split("blog/")[1]); 
-    await main();
+    await prisma.$connect();
 
     //update()は、指定された条件に基づいてDB内の投稿を更新
     //dataという名前である必要あり
@@ -50,7 +49,7 @@ export const PUT = async (req: Request) => {
 export const DELETE = async (req: Request) => {
   try {
     const id: number = parseInt(req.url.split("blog/")[1]); 
-    await main();
+    await prisma.$connect();
 
     const post = await prisma.post.delete({
       where: { id }
