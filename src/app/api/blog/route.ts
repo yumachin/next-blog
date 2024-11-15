@@ -19,7 +19,7 @@ export async function main() {
 //RequestとNextResponseは型定義であるが、NextResponseは機能を持つオブジェクトでもある。
 //reqはクライアント側からサーバー側に送信されたHTTPリクエストの情報を含むオブジェクトで、resはサーバー側がクライアント側に返すHTTPレスポンスの情報を含むオブジェクト
 //reqはルートハンドラ(GETやPOST関数)でデフォルトで渡されるもの、resはpostsをクライアントに返すために引数として必要
-export const GET = async (_: Request, __: NextResponse) => {
+export const GET = async () => {
   try {
   //まずはDB接続
     await main();
@@ -40,7 +40,7 @@ export const GET = async (_: Request, __: NextResponse) => {
 }
 
 //blog投稿API
-export const POST = async (req: Request, _: NextResponse) => {
+export const POST = async (req: Request) => {
   try {
     //req.json()が返すオブジェクトの中から、titleとdescriptionという2つのプロパティを取り出し、それぞれ代入(分割代入)
     const {title, description} = await req.json()
